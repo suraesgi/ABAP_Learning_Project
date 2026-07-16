@@ -1,0 +1,84 @@
+@Metadata.layer: #CORE
+@UI.headerInfo: {
+    typeName: 'Travel',
+    typeNamePlural: 'Travels',
+    title: {
+        type: #STANDARD,
+        label: 'Travel',
+        value: 'TravelID'
+    }
+}
+annotate view ZSS_I_TRAVEL_R_000 with
+{
+  @UI.facet: [ { id:            'Travel',
+               purpose:       #STANDARD,
+               type:          #IDENTIFICATION_REFERENCE,
+               label:         'Travel',
+               position:      10 }, // BURADAKİ VİRGÜL ÇOK ÖNEMLİ
+             { id:            'Booking',
+               purpose:       #STANDARD,
+               type:          #LINEITEM_REFERENCE,
+               label:         'Booking',
+               position:      20,
+               targetElement: '_Booking'} ] 
+
+  @UI           : {
+        lineItem      : [{position: 15, importance: #HIGH}],
+        selectionField: [{position: 15 }],
+        identification: [{position: 15, label:'Agency' }]
+        }
+  AgencyID;
+
+  @UI           : {
+        lineItem      : [{position: 20, importance: #HIGH}],
+        selectionField: [{position: 20 }],
+        identification: [{position: 20, label:'Customer' }]
+        }
+  CustomerID;
+  @UI : {
+        lineItem : [{position: 25, importance: #HIGH}],
+        selectionField: [{position: 25 }],
+        identification: [{position: 25, label:'Addressee' }]
+    }
+  Addressee;
+  @UI           : {
+        lineItem      : [{position: 10, importance: #HIGH}],
+        selectionField: [{position: 10 }],
+        identification: [{position: 10, label:'TravelID' }]
+        }
+  TravelID;
+
+  @UI           : {
+        lineItem      : [{position: 30, importance: #HIGH}],
+        selectionField: [{position: 30 }],
+        identification: [{position: 30, label:'BeginDate' }]
+        }
+  BeginDate;
+
+  @UI           : {
+        lineItem      : [{position: 40, importance: #HIGH}],
+        selectionField: [{position: 40 }],
+        identification: [{position: 40, label:'EndDate' }]
+        }
+  EndDate;
+
+  @UI           : {
+        lineItem      : [{position: 50, importance: #HIGH}],
+         identification: [{position: 50, label:'TotalPrice' }]
+        }
+  TotalPrice;
+  @UI : {
+        lineItem : [{position: 55, importance: #HIGH}],
+         identification: [{position: 55, label:'PriceInUSD' }]
+    }
+  PriceInUSD;
+  @UI           : {
+        lineItem      : [{position: 50, importance: #HIGH}]
+        }
+  Memo;
+
+  @UI: { lineItem:       [ { position: 60, importance: #HIGH } ],
+         selectionField: [ { position: 60 } ] }
+  Status;
+
+}
