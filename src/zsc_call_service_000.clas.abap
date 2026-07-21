@@ -11,35 +11,29 @@ ENDCLASS.
 
 CLASS zsc_call_service_000 IMPLEMENTATION.
 
-  METHOD if_oo_adt_classrun~main.
+ METHOD if_oo_adt_classrun~main.
     TRY.
         DATA(destination) = cl_soap_destination_provider=>create_by_url( i_url = 'https://sapes5.sapdevcenter.com/sap/bc/srt/xip/sap/zepm_product_soap/002/epm_product_soap/epm_product_soap' ).
-
         DATA(proxy) = NEW zsc_co_epm_product_soap(
                         destination = destination
                       ).
-
-        DATA lv_product_id TYPE string VALUE 'HT-1000'.
-
-        DATA(request) = VALUE zsc_req_msg_type( req_msg_type-product = lv_product_id ).
-
-
+        DATA(request) = VALUE zsc_req_msg_type( req_msg_type-product = 'HT-1000' ).
         proxy->get_price(
           EXPORTING
             input = request
           IMPORTING
             output = DATA(response)
         ).
+        out->write( |{ response-res_msg_type-price } { response-res_msg_type-currency }| ).
 
-        out->write( | { response-res_msg_type-price } { response-res_msg_type-currency } | ).
-
-
+        "handle response
       CATCH cx_soap_destination_error.
         out->write( 'Hata: Hedef adresi bulunamadı.'(001) ).
-      CATCH cx_ai_system_fault.
-        out->write( 'Hata: Sistem veya Ağ hatası oluştu. Lütfen bağlantıyı kontrol edin.'(002) ).
+      CATCH cx_ai_system_fault into data(ls_fault).
+        out->write( 'Hata: Sistem hatası oluştu.'(002) ).
       CATCH zsc_cx_fault_msg_type.
         out->write( 'Hata: Servis hatası oluştu.'(003) ).
     ENDTRY.
+
   ENDMETHOD.
 ENDCLASS.
